@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-var server = require("http").createServer(app);
 app.use(express.json());
 app.use(cors());
 
@@ -29,20 +28,95 @@ const routers = [
   "users",
 ];
 
-app.use(function (req, res, next) {
-  var reqType = req.headers["x-forwarded-proto"];
-  reqType == "https"
-    ? next()
-    : res.redirect("https://" + req.headers.host + req.url);
+// routers.map((router) => {
+//   return app.get(`/${router}`, (req, res) => {
+//     const sql = `SELECT * FROM ${router}`;
+//     connection.query(sql, function (err, results) {
+//       if (err) throw err;
+//       res.json({ router: results });
+//     });
+//   });
+// });
+
+//*
+
+app.get(`/`, (req, res) => {
+  const sql = `SELECT * FROM home`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
 });
 
-routers.map((router) => {
-  return app.get(`/${router}`, (req, res) => {
-    const sql = `SELECT * FROM ${router}`;
-    connection.query(sql, function (err, results) {
-      if (err) throw err;
-      res.json({ router: results });
-    });
+app.get(`/vowels`, (req, res) => {
+  const sql = `SELECT * FROM vowels`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/diphthongs`, (req, res) => {
+  const sql = `SELECT * FROM diphthongs`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/consonants`, (req, res) => {
+  const sql = `SELECT * FROM consonants`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/communicate`, (req, res) => {
+  const sql = `SELECT * FROM communicate`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/dictionary`, (req, res) => {
+  const sql = `SELECT * FROM dictionary`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/opal`, (req, res) => {
+  const sql = `SELECT * FROM opal`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/irregular`, (req, res) => {
+  const sql = `SELECT * FROM irregular`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/wordform`, (req, res) => {
+  const sql = `SELECT * FROM wordform`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
+  });
+});
+
+app.get(`/users`, (req, res) => {
+  const sql = `SELECT * FROM users`;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ router: results });
   });
 });
 
