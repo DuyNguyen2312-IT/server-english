@@ -198,6 +198,6 @@ app.post("/login", (req, res) => {
 // });
 
 //* Run server
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
