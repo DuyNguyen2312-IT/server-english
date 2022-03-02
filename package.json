@@ -13,6 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node src/index.js",
     "server": "nodemon --inspect src/index.js",
     "client": "npm run start --prefix ./../client",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",

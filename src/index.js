@@ -1,181 +1,189 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 
 app.use(express.json());
 app.use(cors());
 
 const port = 3001;
 
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 //* connect database with nodejs
-const connection = require('./config/db/db');
+const connection = require("./config/db/db");
 
 //* Get data form API
 // const Routers = require('./Routers/routers');
 // Routers();
 
-const routers = ['home', 'vowels', 'diphthongs', 'consonants', 'communicate', 'dictionary', 'opal', 'irregular', 'wordform', 'users'];
+const routers = [
+  "home",
+  "vowels",
+  "diphthongs",
+  "consonants",
+  "communicate",
+  "dictionary",
+  "opal",
+  "irregular",
+  "wordform",
+  "users",
+];
 
-routers.map(router => {
-  return (
-    app.get(`/${router}`, (req, res) => {
-      const sql = `SELECT * FROM ${router}`;
-      connection.query(sql, function (err, results) {
-        if (err) throw err;
-        res.json({ router: results });
-      });
-    })
-  );
+routers.map((router) => {
+  return app.get(`/${router}`, (req, res) => {
+    const sql = `SELECT * FROM ${router}`;
+    connection.query(sql, function (err, results) {
+      if (err) throw err;
+      res.json({ router: results });
+    });
+  });
 });
 
 //* Add data from server
 
-app.post('/users', (req, res) => {
+app.post("/users", (req, res) => {
   const { userName, password, fullName, DOB, phone, email, image } = req.body;
 
   const query = `INSERT INTO USERS (userName, password, fullName, DOB, phone, email, image) VALUES (?, ?, ?, ?, ?, ?, ?);`;
 
-  connection.query(query, [userName, password, fullName, DOB, phone, email, image],
+  connection.query(
+    query,
+    [userName, password, fullName, DOB, phone, email, image],
     function (err, result) {
       if (err) throw err;
       res.json({ router: result });
-    })
+    }
+  );
 });
 
-
 //* Create Home
-app.post('/home', (req, res) => {
+app.post("/home", (req, res) => {
   const { title, description, slug, image, status } = req.body;
 
   const query = `INSERT INTO HOME (title, description, link, image, status) VALUES (?, ?, ?, ?, ?);`;
 
-  connection.query(query, [title, description, slug, image, status],
+  connection.query(
+    query,
+    [title, description, slug, image, status],
     function (err, result) {
       if (err) throw err;
       res.json({ router: result });
-    })
+    }
+  );
 });
 
 //* Create Communicate English
 
-app.post('/communicate', (req, res) => {
+app.post("/communicate", (req, res) => {
   const { englishName, subName, voice1, voice2 } = req.body;
-  console.log(englishName, subName, voice1, voice2)
+  console.log(englishName, subName, voice1, voice2);
 
   const query = `INSERT INTO communicate (englishName, subName, voice1, voice2) VALUES (?, ?, ?, ?);`;
 
-  connection.query(query, [englishName, subName, voice1, voice2],
+  connection.query(
+    query,
+    [englishName, subName, voice1, voice2],
     function (err, result) {
       if (err) throw err;
       res.json({ router: result });
-    })
+    }
+  );
 });
 
-
 //* Delete Communicate
-app.delete('/communicate/delete/:id', (req, res) => {
+app.delete("/communicate/delete/:id", (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM communicate WHERE id = ?`;
 
-  connection.query(query, [id],
-    function (err, result) {
-      if (err) throw err;
-      res.json({ router: result });
-    })
+  connection.query(query, [id], function (err, result) {
+    if (err) throw err;
+    res.json({ router: result });
+  });
 });
 
 //* Create Dictionary
-app.post('/dictionary', (req, res) => {
+app.post("/dictionary", (req, res) => {
   const { englishName, sign, subName, voice1, voice2 } = req.body;
-  console.log(englishName, subName, voice1, voice2)
+  console.log(englishName, subName, voice1, voice2);
 
   const query = `INSERT INTO dictionary (englishName, sign, subName, voice1, voice2) VALUES (?, ?, ?, ?, ?);`;
 
-  connection.query(query, [englishName, sign, subName, voice1, voice2],
+  connection.query(
+    query,
+    [englishName, sign, subName, voice1, voice2],
     function (err, result) {
       if (err) throw err;
       res.json({ router: result });
-    })
+    }
+  );
 });
 
-
 //* Delete Dictionary
-app.delete('/dictionary/delete/:id', (req, res) => {
+app.delete("/dictionary/delete/:id", (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM dictionary WHERE id = ?`;
 
-  connection.query(query, [id],
-    function (err, result) {
-      if (err) throw err;
-      res.json({ router: result });
-    })
+  connection.query(query, [id], function (err, result) {
+    if (err) throw err;
+    res.json({ router: result });
+  });
 });
 
 //* Create Opal
-app.post('/opal', (req, res) => {
+app.post("/opal", (req, res) => {
   const { englishName, sign, subName, voice1, voice2 } = req.body;
-  console.log(englishName, subName, voice1, voice2)
+  console.log(englishName, subName, voice1, voice2);
 
   const query = `INSERT INTO opal (englishName, sign, subName, voice1, voice2) VALUES (?, ?, ?, ?, ?);`;
 
-  connection.query(query, [englishName, sign, subName, voice1, voice2],
+  connection.query(
+    query,
+    [englishName, sign, subName, voice1, voice2],
     function (err, result) {
       if (err) throw err;
       res.json({ router: result });
-    })
+    }
+  );
 });
 
-
 //* Delete Dictionary
-app.delete('/opal/delete/:id', (req, res) => {
+app.delete("/opal/delete/:id", (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM opal WHERE id = ?`;
 
-  connection.query(query, [id],
-    function (err, result) {
-      if (err) throw err;
-      res.json({ router: result });
-    })
+  connection.query(query, [id], function (err, result) {
+    if (err) throw err;
+    res.json({ router: result });
+  });
 });
 
-
 //* Delete Home
-app.delete('/courses/delete/:id', (req, res) => {
+app.delete("/courses/delete/:id", (req, res) => {
   const id = req.params.id;
   const query = `DELETE FROM HOME WHERE id = ?`;
 
-  connection.query(query, [id],
-    function (err, result) {
-      if (err) throw err;
-      res.json({ router: result });
-    })
+  connection.query(query, [id], function (err, result) {
+    if (err) throw err;
+    res.json({ router: result });
+  });
 });
 
-
 //* Login user
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const userName = req.body.userName;
   const password = req.body.password;
 
-  const query = `SELECT * FROM USERS WHERE userName= ? and password= ?`
-  connection.query(query, [userName, password],
-    function (err, result) {
-      if (err) res.send({ err: err });
+  const query = `SELECT * FROM USERS WHERE userName= ? and password= ?`;
+  connection.query(query, [userName, password], function (err, result) {
+    if (err) res.send({ err: err });
 
-      if (result.length > 0) {
-        res.send(result);
-      } else {
-        res.send({ message: 'Wrong username/password combination!' });
-      }
-    });
+    if (result.length > 0) {
+      res.send(result);
+    } else {
+      res.send({ message: "Wrong username/password combination!" });
+    }
+  });
 });
-
-
-
-
-
 
 //* Update
 // app.get('/courses/update/:item', (req, res) => {
@@ -190,8 +198,7 @@ app.post('/login', (req, res) => {
 //     })
 // });
 
-
 //* Run server
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
-})
+});
