@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
+var server = require("http").createServer(app);
 app.use(express.json());
 app.use(cors());
 
@@ -28,6 +28,13 @@ const routers = [
   "wordform",
   "users",
 ];
+
+app.use(function (req, res, next) {
+  var reqType = req.headers["x-forwarded-proto"];
+  reqType == "https"
+    ? next()
+    : res.redirect("https://" + req.headers.host + req.url);
+});
 
 routers.map((router) => {
   return app.get(`/${router}`, (req, res) => {
@@ -199,14 +206,6 @@ app.post("/login", (req, res) => {
 // });
 
 //* Run server
-// app.listen(PORT, () => {
-//   console.log(`Example app listening at http://localhost:${PORT}`);
-// });
-
-app.listen(process.env.PORT || 3000, function () {
-  console.log(
-    "Express server listening on port %d in %s mode",
-    this.address().port,
-    app.settings.env
-  );
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`);
 });
